@@ -1,4 +1,5 @@
 import CreateTicketForm from "../components/dashboardComponents/CreateTicketForm";
+import TicketManagement from "../components/dashboardComponents/TicketManagement";
 import UserManagement from "../components/dashboardComponents/UserManagement";
 import { UserAuth } from "../context/AuthContext";
 
@@ -13,6 +14,7 @@ const Dashboard = () => {
         <h1>Admin Dashboard</h1>
         <p>Manage users, tickets, and staff assignments.</p>
         <UserManagement />
+        <TicketManagement />
       </div>
     );
   }

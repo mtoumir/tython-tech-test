@@ -5,7 +5,7 @@ export const createTicket = async (title: string, description: string) => {
   const user = (await supabase.auth.getUser()).data.user;
   const { data, error } = await supabase
     .from("tickets")
-    .insert([{ title, description, created_by: user?.id }]);
+    .insert([{ title, description, user_id: user?.id }]); 
   return { data, error };
 };
 

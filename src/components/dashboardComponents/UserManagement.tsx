@@ -4,19 +4,16 @@ import { supabase } from "../../supabaseClient";
 import { UserAuth } from "../../context/AuthContext";
 
 const UserManagement = () => {
-  const { session } = UserAuth(); // get current session
+  const { session } = UserAuth();
   const [users, setUsers] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       if (!session) return;
-
-      // Fetch users from profiles table
       const { data, error } = await supabase.from("profiles").select("*");
       if (error) console.error("Error fetching users:", error);
       else setUsers(data);
     };
-
     fetchUsers();
   }, [session]);
 
@@ -35,40 +32,45 @@ const UserManagement = () => {
     }
   };
 
-  if (!session) return <p>Please sign in to manage users.</p>;
+  if (!session) return <p className="text-red-500">Please sign in to manage users.</p>;
 
   return (
-    <div>
-      <h2 className="font-bold text-xl mb-4">Manage Users</h2>
-      <p>Signed in as: {session.user.email}</p> {/* show admin email */}
-      <table className="w-full border">
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Change Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id} className="border">
-              <td>{user.email ?? "N/A"}</td> {/* use email from profiles */}
-              <td>{user.role}</td>
-              <td>
-                <select
-                  value={user.role}
-                  onChange={(e) => updateRole(user.id, e.target.value)}
-                  className="border p-1"
-                >
-                  <option value="user">User</option>
-                  <option value="staff">Staff</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </td>
+    <div className="bg-white shadow rounded-xl p-6">
+      <h2 className="font-bold text-2xl mb-6 text-gray-800">👤 Manage Users</h2>
+      <p className="mb-4 text-sm text-gray-500">
+        Signed in as: <span className="font-medium">{session.user.email}</span>
+      </p>
+
+      <div className="overflow-x-auto">
+        <table className="w-full border border-gray-200 rounded-lg text-sm">
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th className="py-2 px-3 ">Email</th>
+              <th className="py-2 px-3">Role</th>
+              <th className="py-2 px-3">Change Role</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id} className="border-t hover:bg-gray-50">
+                <td className="py-2 px-3 font-medium">{user.email ?? "N/A"}</td>
+                <td className="py-2 px-3 capitalize font-medium text-center">{user.role}</td>
+                <td className="py-2 px-3 font-medium text-center">
+                  <select
+                    value={user.role}
+                    onChange={(e) => updateRole(user.id, e.target.value)}
+                    className="border rounded-md p-1 text-sm focus:ring focus:ring-blue-300"
+                  >
+                    <option value="user">User</option>
+                    <option value="staff">Staff</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
