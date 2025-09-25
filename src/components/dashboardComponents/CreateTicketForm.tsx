@@ -18,19 +18,29 @@ export default function CreateTicketForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Ticket Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <textarea
-        placeholder="Describe your issue"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      <button type="submit">Create Ticket</button>
-    </form>
+    <form onSubmit={handleSubmit} className="p-4 bg-white rounded shadow-md w-full max-w-md">
+  <input
+    type="text"
+    placeholder="Ticket Title"
+    value={title}
+    onChange={(e) => setTitle(e.target.value)}
+    className="border p-2 mb-2 w-full rounded"
+    required
+  />
+  <textarea
+    placeholder="Describe your issue"
+    value={description}
+    onChange={(e) => setDescription(e.target.value)}
+    className="border p-2 mb-2 w-full rounded h-24"
+    required
+  />
+  <button
+    type="submit"
+    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+  >
+    Create Ticket
+  </button>
+</form>
+
   );
 }

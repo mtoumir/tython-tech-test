@@ -36,7 +36,7 @@ const UserManagement = () => {
 
   return (
     <div className="bg-white shadow rounded-xl p-6">
-      <h2 className="font-bold text-2xl mb-6 text-gray-800">👤 Manage Users</h2>
+      <h2 className="font-bold text-2xl mb-6 text-gray-800">Manage Users</h2>
       <p className="mb-4 text-sm text-gray-500">
         Signed in as: <span className="font-medium">{session.user.email}</span>
       </p>

@@ -3,9 +3,12 @@ import { supabase } from "../supabaseClient";
 // Create Ticket
 export const createTicket = async (title: string, description: string) => {
   const user = (await supabase.auth.getUser()).data.user;
+  if (!user) return { data: null, error: { message: "Not signed in" } };
+
   const { data, error } = await supabase
     .from("tickets")
-    .insert([{ title, description, user_id: user?.id }]); 
+    .insert([{ title, description, created_by: user.id }]); // use the correct column
+
   return { data, error };
 };
 
