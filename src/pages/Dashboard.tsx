@@ -1,3 +1,4 @@
+import UserManagement from "../components/dashboardComponents/UserManagement";
 import { UserAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
@@ -10,7 +11,7 @@ const Dashboard = () => {
       <div>
         <h1>Admin Dashboard</h1>
         <p>Manage users, tickets, and staff assignments.</p>
-        {/* Add components like <UserManagement />, <TicketOverview /> */}
+        <UserManagement />
       </div>
     );
   }

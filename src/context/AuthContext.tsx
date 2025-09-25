@@ -1,13 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
 
-const AuthContext = createContext()
+const AuthContext = createContext<any>(null);
 
-export const AuthContextProvider = ({children}) => {
-    const [session, setSession] = useState(undefined)
-    const [role, setRole] = useState(undefined)
+export const AuthContextProvider = ({ children }: any) => {
+  const [session, setSession] = useState<any>(undefined);
+  const [role, setRole] = useState<string | null>(null);
 
-    const signUpNewUser = async (email, password) => {
+  const signUpNewUser = async (email, password) => {
         const {data, error} = await supabase.auth.signUp({
             email: email,
             password: password,
@@ -36,59 +36,60 @@ export const AuthContextProvider = ({children}) => {
         }
     }
 
-    useEffect(() => {
-  const getProfile = async (userId) => {
+
+  const fetchRole = async (userId: string) => {
     const { data, error } = await supabase
       .from("profiles")
       .select("role")
       .eq("id", userId)
       .single();
 
-    if (!error && data) {
-      setRole(data.role);
-    } else {
+    if (error) {
+      console.error("Error fetching role:", error.message);
       setRole(null);
+    } else {
+      setRole(data.role);
     }
   };
 
-  supabase.auth.getSession().then(({ data: { session } }) => {
-    setSession(session);
-    if (session?.user) {
-      getProfile(session.user.id);
-    }
-  });
-
-  const { data: listener } = supabase.auth.onAuthStateChange(
-    async (_event, session) => {
+  useEffect(() => {
+    // Get current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      if (session?.user) {
-        getProfile(session.user.id);
-      } else {
-        setRole(null);
+      if (session?.user?.id) {
+        fetchRole(session.user.id);
       }
-    }
-  );
+    });
 
-  return () => {
-    listener.subscription.unsubscribe();
-  };
-}, []);
-
-
-    const signOut = () => {
-        const { error } = supabase.auth.signOut()
-        if (error) {
-            console.error("Error signing out:", error);
+    // Listen for auth state changes
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+        if (session?.user?.id) {
+          fetchRole(session.user.id);
+        } else {
+          setRole(null);
         }
-    }
+      }
+    );
 
-    return (
-        <AuthContext.Provider value={{session, signUpNewUser, signInUser, signOut, role}}>
-            {children}
-        </AuthContext.Provider>
-    )
-}
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
 
-export const UserAuth = () => {
-    return useContext(AuthContext)
-}
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) console.error("Error signing out:", error.message);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{ session, role, signUpNewUser, signInUser, signOut }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const UserAuth = () => useContext(AuthContext);
