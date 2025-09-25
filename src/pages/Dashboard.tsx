@@ -1,3 +1,4 @@
+import CreateTicketForm from "../components/dashboardComponents/CreateTicketForm";
 import UserManagement from "../components/dashboardComponents/UserManagement";
 import { UserAuth } from "../context/AuthContext";
 
@@ -31,7 +32,8 @@ const Dashboard = () => {
       <div>
         <h1>User Dashboard</h1>
         <p>Create tickets and track their status.</p>
-        {/* Add components like <MyTickets />, <CreateTicket /> */}
+        Create Ticket Form Component Here:
+        <CreateTicketForm />
       </div>
     );
   }
