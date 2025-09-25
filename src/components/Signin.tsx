@@ -32,7 +32,7 @@ const Signin = () => {
       <form onSubmit={handleSignIn} className="max-w-md m-auto pt-24">
         <h2 className="font-bold pb-2">Sign In</h2>
         <p>
-          sign up <Link to="/signin" className="text-blue-500">here</Link>
+          sign up <Link to="/signup" className="text-blue-500">here</Link> when no account yet
         </p>
         <div className="flex flex-col py-4">
           <input onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="p-3 mt-6" type="email" />
