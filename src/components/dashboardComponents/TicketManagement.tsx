@@ -8,7 +8,6 @@ const TicketManagement = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Fetch tickets
       const { data: ticketsData, error: ticketsError } = await supabase
   .from("tickets")
   .select("*")
@@ -20,7 +19,7 @@ const TicketManagement = () => {
       if (ticketsError) console.error("Error fetching tickets:", ticketsError);
       else setTickets(ticketsData);
 
-      // Fetch staff
+      // Fetching staff members
       const { data: staffData, error: staffError } = await supabase
         .from("profiles")
         .select("id, email")

@@ -4,7 +4,7 @@ import { supabase } from "../supabaseClient";
 const AuthContext = createContext<any>(null);
 
 export const AuthContextProvider = ({ children }: any) => {
-  const [session, setSession] = useState<any>(null); // start with null
+  const [session, setSession] = useState<any>(null); 
   const [role, setRole] = useState<string | null>(null);
 
   const fetchRole = async (userId: string) => {
@@ -34,7 +34,7 @@ export const AuthContextProvider = ({ children }: any) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) return { success: false, error };
 
-    setSession(data.session); // ✅ update session immediately
+    setSession(data.session); 
     if (data.session?.user?.id) {
       fetchRole(data.session.user.id);
     }

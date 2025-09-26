@@ -1,4 +1,3 @@
-// components/dashboardComponents/UserTicketManagement.tsx
 import { useEffect, useState } from "react";
 import { supabase } from "../../supabaseClient";
 import { approveTicket } from "../../services/TicketService";
@@ -80,7 +79,7 @@ const UserTicketManagement = () => {
                 <strong>Assigned To:</strong> {ticket.assigned?.email ?? "Unassigned"}
               </p>
 
-              {/* Approve Button */}
+              {/* where user approve */}
               {ticket.status === "solved" && (
                 <button
                   onClick={() => handleApprove(ticket.id)}
@@ -90,7 +89,7 @@ const UserTicketManagement = () => {
                 </button>
               )}
 
-              {/* Comments */}
+              {/* this part for comments */}
               {ticket.ticket_comments && ticket.ticket_comments.length > 0 && (
                 <div className="mt-4">
                   <h4 className="font-semibold">Comments:</h4>

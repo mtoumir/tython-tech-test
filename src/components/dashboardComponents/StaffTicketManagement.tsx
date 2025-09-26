@@ -1,4 +1,3 @@
-// components/dashboardComponents/StaffTicketManagement.tsx
 import { useEffect, useState } from "react";
 import { supabase } from "../../supabaseClient";
 import { addComment, solveTicket } from "../../services/TicketService";
